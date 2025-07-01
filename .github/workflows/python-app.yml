@@ -1,0 +1,42 @@
+name: Python CI
+
+# trigger the workflow on any oush to the main branch or pull request
+on:
+    push: #Event
+        branches:
+            - main
+    pull_request: #Event            # Events -> Push, Pull, Merge, Delete
+        branches:                   #            ↓            
+            - main                  #           Trigger workflows
+    # Staging
+    # Production
+
+jobs:
+    test:
+        runs-on: ubuntu-latest      # Github provide containers where entire application is run and tested
+                # windows
+                # macOS
+
+        #workflow
+        steps:  
+            # step 1: check out the code from the repository
+          - name: Check out the code
+            uses: actions/checkout@v2
+
+            # step 2: Set up Python environment
+          - name: Set up python
+            uses: actions/setup-python@v2  # use to create python environment
+            with:
+                python-version: '3.8'
+
+            # step 3: Install Dependencies
+          - name: Install dependencies
+            run: |
+                python -m pip install --upgrade pip
+                pip install -r requirements.txt
+            
+            # step 4: Run tests
+          - name: Run tests
+            run: pytest
+            
+            
